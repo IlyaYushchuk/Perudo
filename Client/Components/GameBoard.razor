@@ -1,0 +1,76 @@
+﻿@page "/game-board"
+@using System.Collections.Generic
+@inject GameClientLogic GameClientLogic
+
+<h3>Игроки в игре</h3>
+
+
+
+@if (players == null)
+{
+    <p>Ожидание игроков...</p>
+}
+else if (players.Count > 0)
+{
+    <ul>
+        @foreach (var player in players)
+        {
+            <li>@player</li>
+        }
+    </ul>
+}
+else
+{
+    <p>Ожидание игроков...</p>
+}
+
+<p>@counter</p>
+
+
+<button @onclick="StartGameBtn">Начать игру</button>
+<button disabled="@myTurn" @onclick="CounterIncBtn">Сделать ход</button>
+
+@code {
+
+    public bool myTurn { get; set; } = true;
+    public List<string> players { get; set; } = new();
+    public int counter { get; set; } = 0;
+    protected override async Task OnInitializedAsync()
+    {
+        await GameClientLogic.PlayersListAskAsync();
+
+        GameClientLogic.YourTurn += (newCounter) =>
+        {
+            Console.WriteLine($"---Your Turn--- {newCounter}");
+            counter = newCounter;
+            myTurn = false;
+            StateHasChanged();
+        };
+        // Подписываемся на события обновления списка игроков
+        GameClientLogic.OnPlayerListUpdated += (updatedPlayers) =>
+        {
+            players = updatedPlayers;
+            foreach (var p in updatedPlayers)
+                Console.WriteLine($"updatedPlayers: {p}");
+            StateHasChanged();
+        };
+        GameClientLogic.OnPlayerListUpdated2 += () =>
+        {
+            StateHasChanged();
+        };
+        // Подключаемся к серверу
+    }
+
+    public async Task StartGameBtn()
+    {
+        await GameClientLogic.StartGame();
+    }
+
+    public async Task CounterIncBtn()
+    {
+        counter++;
+        myTurn = true;
+        await GameClientLogic.IncCounter();
+        StateHasChanged();
+    }
+}

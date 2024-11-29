@@ -1,0 +1,26 @@
+﻿@page "/join-game"
+@inject GameClientLogic GameClient
+
+<h3>Присоединение к игре</h3>
+
+<input @bind="PlayerName" placeholder="Введите имя" />
+<button @onclick="JoinGame2">Присоединиться</button>
+
+@if (PlayerJoined)
+{
+    <p>Вы успешно присоединились как <strong>@PlayerName</strong>.</p>
+}
+
+@code {
+    private string PlayerName = "";
+    private bool PlayerJoined = false;
+
+    private async Task JoinGame2()
+    {
+        if (!string.IsNullOrWhiteSpace(PlayerName))
+        {
+            await GameClient.JoinGame(PlayerName);
+            PlayerJoined = true;
+        }
+    }
+}
