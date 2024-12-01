@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\253505\\5sem\\SPPR\\13\\Server\\Server.csproj": {}
+    "C:\\SPPR\\13\\Server\\Server.csproj": {}
   },
   "projects": {
-    "D:\\253505\\5sem\\SPPR\\13\\Server\\Server.csproj": {
+    "C:\\SPPR\\13\\Server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\253505\\5sem\\SPPR\\13\\Server\\Server.csproj",
+        "projectUniqueName": "C:\\SPPR\\13\\Server\\Server.csproj",
         "projectName": "Server",
-        "projectPath": "D:\\253505\\5sem\\SPPR\\13\\Server\\Server.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\253505\\5sem\\SPPR\\13\\Server\\obj\\",
+        "projectPath": "C:\\SPPR\\13\\Server\\Server.csproj",
+        "packagesPath": "C:\\Users\\konst\\.nuget\\packages\\",
+        "outputPath": "C:\\SPPR\\13\\Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\konst\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

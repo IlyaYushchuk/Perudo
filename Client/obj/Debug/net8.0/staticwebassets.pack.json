@@ -1,43 +1,51 @@
 {
   "Files": [
     {
-      "Id": "D:\\253505\\5sem\\SPPR\\13\\Client\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "Id": "C:\\SPPR\\13\\Client\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
       "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
     },
     {
-      "Id": "D:\\253505\\5sem\\SPPR\\13\\Client\\obj\\Debug\\net8.0\\compressed\\qpzr0l9ehk.gz",
+      "Id": "C:\\SPPR\\13\\Client\\obj\\Debug\\net8.0\\compressed\\umb9tsb0t1.gz",
       "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
     },
     {
-      "Id": "D:\\253505\\5sem\\SPPR\\13\\Client\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Client.styles.css",
+      "Id": "C:\\SPPR\\13\\Client\\obj\\Debug\\net8.0\\scopedcss\\bundle\\Client.styles.css",
       "PackagePath": "staticwebassets\\Client.styles.css"
     },
     {
-      "Id": "D:\\253505\\5sem\\SPPR\\13\\Client\\wwwroot\\css\\app.css",
+      "Id": "C:\\SPPR\\13\\Client\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },
     {
-      "Id": "D:\\253505\\5sem\\SPPR\\13\\Client\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
-      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+      "Id": "C:\\SPPR\\13\\Client\\wwwroot\\css\\board.css",
+      "PackagePath": "staticwebassets\\css\\board.css"
     },
     {
-      "Id": "D:\\253505\\5sem\\SPPR\\13\\Client\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
-      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+      "Id": "C:\\SPPR\\13\\Client\\wwwroot\\css\\join.css",
+      "PackagePath": "staticwebassets\\css\\join.css"
     },
     {
-      "Id": "D:\\253505\\5sem\\SPPR\\13\\Client\\wwwroot\\favicon.png",
+      "Id": "C:\\SPPR\\13\\Client\\wwwroot\\css\\main.css",
+      "PackagePath": "staticwebassets\\css\\main.css"
+    },
+    {
+      "Id": "C:\\SPPR\\13\\Client\\wwwroot\\dark-wood-background-0cyh8iq1d71hnwi9.jpg",
+      "PackagePath": "staticwebassets\\dark-wood-background-0cyh8iq1d71hnwi9.jpg"
+    },
+    {
+      "Id": "C:\\SPPR\\13\\Client\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
-      "Id": "D:\\253505\\5sem\\SPPR\\13\\Client\\wwwroot\\icon-192.png",
+      "Id": "C:\\SPPR\\13\\Client\\wwwroot\\icon-192.png",
       "PackagePath": "staticwebassets\\icon-192.png"
     },
     {
-      "Id": "D:\\253505\\5sem\\SPPR\\13\\Client\\wwwroot\\index.html",
+      "Id": "C:\\SPPR\\13\\Client\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {
-      "Id": "D:\\253505\\5sem\\SPPR\\13\\Client\\wwwroot\\sample-data\\weather.json",
+      "Id": "C:\\SPPR\\13\\Client\\wwwroot\\sample-data\\weather.json",
       "PackagePath": "staticwebassets\\sample-data\\weather.json"
     },
     {

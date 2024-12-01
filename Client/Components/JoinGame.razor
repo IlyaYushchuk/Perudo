@@ -1,26 +1,26 @@
 ﻿@page "/join-game"
 @inject GameClientLogic GameClient
+@inject NavigationManager Navigation
 
-<h3>Присоединение к игре</h3>
+<link href="css/join.css" rel="stylesheet">
 
-<input @bind="PlayerName" placeholder="Введите имя" />
-<button @onclick="JoinGame2">Присоединиться</button>
-
-@if (PlayerJoined)
-{
-    <p>Вы успешно присоединились как <strong>@PlayerName</strong>.</p>
-}
+<div class="container">
+    <div>
+        <h3>Присоединиться к игре</h3>
+        <input @bind="PlayerName" placeholder="Введите имя" />
+        <button @onclick="JoinGameBtn">Присоединиться</button>
+    </div>
+</div>
 
 @code {
     private string PlayerName = "";
-    private bool PlayerJoined = false;
 
-    private async Task JoinGame2()
+    private async Task JoinGameBtn()
     {
         if (!string.IsNullOrWhiteSpace(PlayerName))
         {
+            Navigation.NavigateTo($"/game-board?name={PlayerName}");
             await GameClient.JoinGame(PlayerName);
-            PlayerJoined = true;
         }
     }
 }

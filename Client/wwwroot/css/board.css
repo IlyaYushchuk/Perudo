@@ -1,0 +1,181 @@
+﻿aside {
+    position: fixed;
+    right: 0;
+    top: 35px;
+    height: 100%;
+    width: 15vw;
+    background-color: #f9f9f9;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    z-index: -1;
+}
+
+aside h3 {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #333;
+}
+
+aside ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+aside li {
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+aside li[style="background-color: lightgray"] {
+    background-color: #d3d3d3;
+    font-weight: bold;
+    transform: scale(1.05);
+}
+
+aside li:hover {
+    background-color: #eaeaea;
+}
+
+aside p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+    color: #777;
+    text-align: center;
+    margin-top: 20px;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    margin: 20px auto;
+    max-width: 600px;
+    box-sizing: border-box;
+}
+
+section h3 {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 10px 0;
+    text-align: center;
+    color: #333;
+}
+
+.selectNumber {
+    margin: 10px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.selectNumber label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.selectNumber select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.selectNumber select:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.button {
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 100%;
+    max-width: 200px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#chatContainer {
+    position: fixed;
+    bottom: 46px;
+    width: 100%;
+    max-width: 50vw;
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    height: 20vh;
+    border-radius: 20px 20px 0 0;
+}
+
+#chatContainer p {
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+#chatContainer pre {
+    font-family: 'Courier New', monospace;
+    font-size: 20px;
+    color: #555;
+    margin: 5px 0 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#notYourTurn {
+    color: #777;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    section {
+        max-width: 90%;
+    }
+
+    #chatContainer {
+        max-width: 90%;
+    }
+}

@@ -1,90 +1,136 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using System;
 
-namespace PerudoGame.Client.Services;
-
-public class GameClientLogic
+namespace PerudoGame.Client.Services
 {
-    private readonly HubConnection _hubConnection;
-
-    public event Action<List<string>>? OnPlayerListUpdated;
-    public event Action OnPlayerListUpdated2;
-    public event Action GameStarted;
-    public event Action<int> YourTurn;
-
-    public event Action<List<Player>>? OnGameStarted;
-    public event Action<string, string>? OnBidMade;
-
-    public GameClientLogic(string hubUrl)
+    public class GameClientLogic
     {
-        _hubConnection = new HubConnectionBuilder()
-            .WithUrl(hubUrl)
-            .WithAutomaticReconnect() // Автоматическое переподключение
-            .Build();
+        private readonly HubConnection _hubConnection;
 
-        _hubConnection.On("GameStarted", () =>
-        {
-            Console.WriteLine("----Game Started----");
-            GameStarted?.Invoke(); 
-        });
+        public event Action<List<string>>? OnPlayerListUpdated;
+        public event Action<string, string>? OnChatUpdated;
+        public event Func<Task> OnEndGame;
+        public event Action<int> OnYourTurn;
 
-        _hubConnection.On<int>("YourTurn", (newCounter) =>
-        {
-            YourTurn?.Invoke(newCounter);
-        });
+        public event Func<List<string>, string, Task> OnTurnOrderDetermined;
+        public event Func<string, Task> OnTurnChanged;
+        public event Func<string, Task> OnInvalidTurn;
+        public event Func <Task> OnReadyConfirmed;
+        public event Func<List<int>, Task> OnDiceUpdated;
+        public event Func<List<int>, Task> OnBetUpdated;
+        public event Func<Dictionary<string, int>, Task> OnDicesCountUpdated;
 
-        _hubConnection.On<List<string>>("UpdatePlayerList", (playerNames) =>
+        public GameClientLogic(string hubUrl)
         {
-            OnPlayerListUpdated?.Invoke(playerNames); // Вызываем локальное событие
-            OnPlayerListUpdated2?.Invoke();
-        });
+            _hubConnection = new HubConnectionBuilder()
+                .WithUrl(hubUrl)
+                .WithAutomaticReconnect()
+                .Build();
 
-        _hubConnection.On<List<string>>("PlayersListAskAsync", (playerNames) =>
-        {
-            OnPlayerListUpdated?.Invoke(playerNames); // Вызываем локальное событие
-            OnPlayerListUpdated2?.Invoke();
-        });
+            _hubConnection.On<string, string>("ChatUpdated", (name, action) =>
+            {
+                OnChatUpdated?.Invoke(name, action);
+            });
 
-        _hubConnection.Reconnected += async (connectionId) =>
-        {
-            Console.WriteLine($"Reconnected with connectionId: {connectionId}");
-        };
+            _hubConnection.On<List<string>>("PlayerListUpdate", (playerNames) =>
+            {
+                OnPlayerListUpdated?.Invoke(playerNames);
+            });
 
-        _hubConnection.Closed += async (error) =>
-        {
-            Console.WriteLine($"Connection closed. Error: {error?.Message}");
-            await Task.Delay(5000); // Подождите перед переподключением
-            await _hubConnection.StartAsync(); // Переподключение
-        };
-    }
+            _hubConnection.On<List<string>>("PlayersListAskAsync", (playerNames) =>
+            {
+                OnPlayerListUpdated?.Invoke(playerNames);
+            });
 
-    public async Task IncCounter() => await _hubConnection.InvokeCoreAsync("CounterIncremented", typeof(Task), [] );
-    public async Task ConnectAsync() => await _hubConnection.StartAsync();
-    public async Task JoinGame(string playerName)
-    {
-        if (_hubConnection.State == HubConnectionState.Disconnected)
-        {
-            await _hubConnection.StartAsync(); // Установить соединение
+            _hubConnection.Reconnected += async (connectionId) =>
+            {
+                Console.WriteLine($"Reconnected with connectionId: {connectionId}");
+            };
+
+            _hubConnection.Closed += async (error) =>
+            {
+                Console.WriteLine($"Connection closed. Error: {error?.Message}");
+                await Task.Delay(5000);
+                await _hubConnection.StartAsync();
+            };
+
+            _hubConnection.On<List<string>, string>("TurnOrderDetermined", async (players, currentPlayer) =>
+            {
+                if (OnTurnOrderDetermined != null)
+                    await OnTurnOrderDetermined(players, currentPlayer);
+            });
+
+            _hubConnection.On<string>("TurnChanged", async (currentPlayer) =>
+            {
+                if (OnTurnChanged != null)
+                    await OnTurnChanged(currentPlayer);
+            });
+
+            _hubConnection.On("ReadyConfirmed", async () =>
+            {
+                if (OnReadyConfirmed != null)
+                    await OnReadyConfirmed();
+            });
+
+            _hubConnection.On<List<int>>("yourDice", async (dice) =>
+            {
+                if (OnDiceUpdated != null)
+                    await OnDiceUpdated(dice);
+            });
+
+            _hubConnection.On("endGame", async () =>
+            {
+                if (OnEndGame != null)
+                    await OnEndGame();
+            });
+
+            _hubConnection.On<Dictionary<string, int>>("DicesCount", async (dicesCount) =>
+            {
+                //Console.WriteLine("change2");
+                if (OnDicesCountUpdated != null)
+                    await OnDicesCountUpdated(dicesCount);
+            });
+
+            _hubConnection.On<List<int>>("currentBet", async (bet) =>
+            {
+                //Console.WriteLine(bet[0] + " " + bet[1]);
+                if (OnBetUpdated != null)
+                    await OnBetUpdated(bet);
+            });
         }
 
-        await _hubConnection.InvokeCoreAsync("JoinGame", args: new[] { playerName });
-    }
-    public async Task PlayersListAskAsync()
-    {
-      
-        if (_hubConnection.State == HubConnectionState.Disconnected)
+        public async Task ConnectAsync() => await _hubConnection.StartAsync();
+        public async Task JoinGame(string playerName)
         {
-            await _hubConnection.StartAsync(); // Установить соединение
+            if (_hubConnection.State == HubConnectionState.Disconnected)
+            {
+                await _hubConnection.StartAsync();
+            }
+
+            await _hubConnection.InvokeCoreAsync("JoinGame", args: new[] { playerName });
         }
+        public async Task PlayersListAskAsync()
+        {
+            if (_hubConnection.State == HubConnectionState.Disconnected)
+            {
+                await _hubConnection.StartAsync();
+            }
 
-        await _hubConnection.InvokeCoreAsync("PlayersListAskAsync", typeof(List<string>), []);
-
+            await _hubConnection.InvokeCoreAsync("PlayersListAskAsync", typeof(List<string>), []);
+        }
+        public async Task StartGame() => await _hubConnection.InvokeAsync("StartGame");
+        public async Task DetermineTurnOrder()
+        {
+            await _hubConnection.InvokeAsync("DetermineTurnOrder");
+        }
+        public async Task MakeMove(string playerName, string moveType, List<int> args)
+        {
+            Console.WriteLine("doodoo2");
+            await _hubConnection.InvokeAsync("MakeMove", playerName, moveType, args);
+        }
+        public async Task SetReady()
+        {
+            await _hubConnection.InvokeAsync("SetReady");
+        }
     }
-    public async Task StartGame() => await _hubConnection.InvokeAsync("StartGame");
-    public async Task MakeBid(string playerName, string bid) => await _hubConnection.InvokeAsync("MakeBid", playerName, bid);
-}
-
-public class Player
-{
-    public string Name { get; set; }
-    public List<int> Dice { get; set; } = new List<int>();
 }
