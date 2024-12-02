@@ -179,3 +179,40 @@ section h3 {
         max-width: 90%;
     }
 }
+.chat-container {
+    position: fixed; /* Фиксирует элемент на экране */
+    left: 0; /* Располагает элемент у левого края */
+    top: 0; /* Ставит элемент в верхнюю часть */
+    width: auto; /* Ширина контейнера (например, 20% экрана) */
+    height: 100%; /* Высота на весь экран */
+    background-color: #f1f1f1; /* Задайте цвет фона */
+    padding: 10px; /* Внутренний отступ */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Легкая тень для эффекта */
+    overflow-y: auto; /* Скроллинг, если содержимое превышает высоту */
+}
+
+#chatContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Расстояние между элементами */
+}
+
+input {
+    width: calc(100% - 20px); /* Учитываем отступы, чтобы input не выходил за пределы */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: #0056b3;
+    }

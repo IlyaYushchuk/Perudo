@@ -4354,3 +4354,13 @@ C:\SPPR\13\Client\obj\Debug\net8.0\webcil\Microsoft.AspNetCore.WebUtilities.wasm
 C:\SPPR\13\Client\obj\Debug\net8.0\webcil\Microsoft.Net.Http.Headers.wasm
 C:\SPPR\13\Client\obj\Debug\net8.0\compressed\nbw52nz81n.gz
 C:\SPPR\13\Client\obj\Debug\net8.0\compressed\cxsl18hk0u.gz
+D:\253505\5sem\SPPR\13\Client\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.WebUtilities.wasm
+D:\253505\5sem\SPPR\13\Client\bin\Debug\net8.0\wwwroot\_framework\Microsoft.Net.Http.Headers.wasm
+D:\253505\5sem\SPPR\13\Client\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.WebUtilities.wasm.gz
+D:\253505\5sem\SPPR\13\Client\bin\Debug\net8.0\wwwroot\_framework\Microsoft.Net.Http.Headers.wasm.gz
+D:\253505\5sem\SPPR\13\Client\bin\Debug\net8.0\Microsoft.AspNetCore.WebUtilities.dll
+D:\253505\5sem\SPPR\13\Client\bin\Debug\net8.0\Microsoft.Net.Http.Headers.dll
+D:\253505\5sem\SPPR\13\Client\obj\Debug\net8.0\webcil\Microsoft.AspNetCore.WebUtilities.wasm
+D:\253505\5sem\SPPR\13\Client\obj\Debug\net8.0\webcil\Microsoft.Net.Http.Headers.wasm
+D:\253505\5sem\SPPR\13\Client\obj\Debug\net8.0\compressed\3aaqigs587.gz
+D:\253505\5sem\SPPR\13\Client\obj\Debug\net8.0\compressed\mzk7un0nwm.gz

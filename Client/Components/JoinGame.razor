@@ -17,10 +17,18 @@
 
     private async Task JoinGameBtn()
     {
+        //await Task.Main( () => Console.WriteLine("qwerty2"));
         if (!string.IsNullOrWhiteSpace(PlayerName))
         {
+            //Console.WriteLine("qwerty3");
             Navigation.NavigateTo($"/game-board?name={PlayerName}");
             await GameClient.JoinGame(PlayerName);
+            //await GameClientLogic.PlayersListAskAsync();
+            StateHasChanged();
+            // Console.WriteLine("qwerty");
+            // Console.WriteLine(PlayerName);
+
         }
+        //return Task.CompletedTask;
     }
 }

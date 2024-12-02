@@ -12,10 +12,11 @@ namespace PerudoGame.Client.Services
         public event Func<Task> OnEndGame;
         public event Action<int> OnYourTurn;
 
-        public event Func<List<string>, string, Task> OnTurnOrderDetermined;
-        public event Func<string, Task> OnTurnChanged;
+        public event Func<List<string>, string,Task> OnTurnOrderDetermined;
+        public event Func<string, string, Task> OnTurnChanged;
         public event Func<string, Task> OnInvalidTurn;
-        public event Func <Task> OnReadyConfirmed;
+        public event Func<Task> OnReadyConfirmed;
+        public event Func<Task> OnMaputaRound;
         public event Func<List<int>, Task> OnDiceUpdated;
         public event Func<List<int>, Task> OnBetUpdated;
         public event Func<Dictionary<string, int>, Task> OnDicesCountUpdated;
@@ -60,10 +61,10 @@ namespace PerudoGame.Client.Services
                     await OnTurnOrderDetermined(players, currentPlayer);
             });
 
-            _hubConnection.On<string>("TurnChanged", async (currentPlayer) =>
+            _hubConnection.On<string, string>("TurnChanged", async (currentPlayer, nextPlayer) =>
             {
                 if (OnTurnChanged != null)
-                    await OnTurnChanged(currentPlayer);
+                    await OnTurnChanged(currentPlayer, nextPlayer);
             });
 
             _hubConnection.On("ReadyConfirmed", async () =>
@@ -72,8 +73,20 @@ namespace PerudoGame.Client.Services
                     await OnReadyConfirmed();
             });
 
+            _hubConnection.On("MaputaRound", async () =>
+            {
+                //Console.WriteLine("MaputaRoun");
+                if (OnMaputaRound != null)
+                    await OnMaputaRound();
+            });
+
             _hubConnection.On<List<int>>("yourDice", async (dice) =>
             {
+                Console.WriteLine($"YOUR DICES ======");
+                foreach(var d in dice)
+                {
+                    Console.WriteLine(d);
+                }
                 if (OnDiceUpdated != null)
                     await OnDiceUpdated(dice);
             });
@@ -86,14 +99,12 @@ namespace PerudoGame.Client.Services
 
             _hubConnection.On<Dictionary<string, int>>("DicesCount", async (dicesCount) =>
             {
-                //Console.WriteLine("change2");
                 if (OnDicesCountUpdated != null)
                     await OnDicesCountUpdated(dicesCount);
             });
 
             _hubConnection.On<List<int>>("currentBet", async (bet) =>
             {
-                //Console.WriteLine(bet[0] + " " + bet[1]);
                 if (OnBetUpdated != null)
                     await OnBetUpdated(bet);
             });
@@ -125,12 +136,26 @@ namespace PerudoGame.Client.Services
         }
         public async Task MakeMove(string playerName, string moveType, List<int> args)
         {
-            Console.WriteLine("doodoo2");
+            Console.WriteLine($"GameClientLogic playerName: {playerName}, moveType: {moveType}");
             await _hubConnection.InvokeAsync("MakeMove", playerName, moveType, args);
         }
         public async Task SetReady()
         {
             await _hubConnection.InvokeAsync("SetReady");
         }
+        public async Task LeaveGame(string playerName)
+        {
+            await _hubConnection.InvokeAsync("LeaveGame", playerName);
+        }
+        public async Task Maputa()
+        {
+            await _hubConnection.InvokeAsync("MaputaRound");
+        }
+
+        public async Task SendMessageToChat(string playerName, string text)
+        {
+            await _hubConnection.InvokeAsync("SendMessageToChat", playerName, text);
+        }
+        
     }
 }
