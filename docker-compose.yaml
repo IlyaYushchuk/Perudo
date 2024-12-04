@@ -1,0 +1,18 @@
+version: "3"
+
+volumes: 
+  databases:
+
+services:
+  perudo:
+    image: mysql:8.0.36
+    container_name: perudo-db 
+    volumes:
+      - databases:/data/db_perudo
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: perudoidentitydb 
+      MYSQL_USER: perudo
+      MYSQL_PASSWORD: perudo
+    ports:
+      - "3307:3306"
