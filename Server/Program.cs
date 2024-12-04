@@ -43,14 +43,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.MapHub<GameHub>("/gamehub");
-
-app.UseCors();
 
 using (var scope = app.Services.CreateScope())
 {

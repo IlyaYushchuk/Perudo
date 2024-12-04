@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 
 namespace PerudoGame.Client.Services
@@ -23,12 +24,19 @@ namespace PerudoGame.Client.Services
         public event Func<List<int>, Task> OnBetUpdated;
         public event Func<Dictionary<string, int>, Task> OnDicesCountUpdated;
 
-        public GameClientLogic(string hubUrl)
+        public GameClientLogic(string hubUrl, HttpClient httpClient, ILocalStorageService localStorage)
         {
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl(hubUrl)
-                .WithAutomaticReconnect()
-                .Build();
+            .WithUrl(hubUrl, options =>
+            {
+                options.AccessTokenProvider = async () =>
+                {
+                    var token = await localStorage.GetItemAsync<string>("token");
+                    return token;
+                };
+            })
+            .WithAutomaticReconnect()
+            .Build();
 
             _hubConnection.On<string>("Error", (error) =>
             {

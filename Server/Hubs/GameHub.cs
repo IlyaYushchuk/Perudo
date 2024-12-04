@@ -3,9 +3,11 @@ using System.Diagnostics.Metrics;
 using System.Collections.Concurrent;
 using Microsoft.AspNetCore.SignalR;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PerudoGame.Server.Hubs;
 
+[Authorize]
 public class GameHub : Hub
 {
     private static readonly ConcurrentDictionary<string, GameLogic> _games = new ConcurrentDictionary<string, GameLogic>();
