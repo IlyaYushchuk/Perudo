@@ -62,8 +62,12 @@ public class UsersController : ControllerBase
 			throw new BadRequestException($"Cannot register user: {errors}");
 		}
 
-		return Created();
-	}
+        user = await _userManager.FindByEmailAsync(userDto.Email);
+
+        var token = _tokenService.GetToken(user);
+
+        return Ok(token);
+    }
 
 	[HttpGet]
 	[Authorize]

@@ -1,15 +1,18 @@
 ﻿@inherits LayoutComponentBase
-<div>
-    <div>
-        <link href="css/main.css" rel="stylesheet">
-        <NavMenu />
-    </div>
 
-    <main>
-        <article>
-            @Body
-        </article>
-        <!--Захотел себя добавить? Кто прочитает - тот Илья лох-->
-        <footer><p>Authors: Mahveenya Konstantin, Yushchuk Ilya, Vladislav Pavlovich, Dmitry Chechulov</p></footer>
-    </main>
+<div>
+    <link href="css/main.css" rel="stylesheet">
+    <NavMenu @ref="navMenu" />
+    <div class="main">
+        @Body
+    </div>
 </div>
+
+@code {
+    private NavMenu navMenu;
+
+    public async Task UpdateUserEmailAsync()
+    {
+        await navMenu.UpdateUserEmailAsync(); 
+    }
+}

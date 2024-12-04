@@ -1,16 +1,16 @@
-﻿@page "/login"
+﻿@page "/register"
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @inject HttpClient HttpClient
 @inject NavigationManager Navigation
 
-<h3>Вход в систему</h3>
+<h3>Регистрация</h3>
 
 @if (errorMessage != null)
 {
     <div class="alert alert-danger">@errorMessage</div>
 }
 
-<EditForm Model="registerDTO" OnValidSubmit="HandleLogin">
+<EditForm Model="registerDTO" OnValidSubmit="HandleRegister">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -26,10 +26,10 @@
         <ValidationMessage For="@(() => registerDTO.Password)" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Войти</button>
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
 
     <p>
-        У вас еще нет аккаунта? <NavLink href="/register">Зарегистрироваться</NavLink>
+        Уже есть аккаунт? <NavLink href="/login">Войти</NavLink>
     </p>
 </EditForm>
 
@@ -37,9 +37,9 @@
     private RegisterDTO registerDTO = new RegisterDTO();
     private string errorMessage;
 
-    private async Task HandleLogin()
+    private async Task HandleRegister()
     {
-        var response = await HttpClient.PostAsJsonAsync("https://localhost:7195/api/Users/login", registerDTO);
+        var response = await HttpClient.PostAsJsonAsync("https://localhost:7195/api/Users/register", registerDTO);
 
         if (response.IsSuccessStatusCode)
         {
@@ -50,7 +50,7 @@
         }
         else
         {
-            errorMessage = "Неверный email или пароль.";
+            errorMessage = "Ошибка регистрации. Пожалуйста, проверьте введенные данные.";
         }
     }
 }

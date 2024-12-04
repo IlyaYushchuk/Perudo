@@ -1,5 +1,10 @@
-﻿<div>
-    <div >
+﻿@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject NavigationManager Navigation
+@using System.IdentityModel.Tokens.Jwt
+@using System.Security.Claims
+
+<div>
+    <div>
         <a href="">Client</a>
         <button title="Navigation menu" @onclick="ToggleNavMenu">
             <span></span>
@@ -9,39 +14,62 @@
 
 <div @onclick="ToggleNavMenu">
     <nav>
-        @*<div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>*@
         <div>
             <NavLink href="/join-game">
                 <span aria-hidden="true"></span> Присоединиться
             </NavLink>
         </div>
-        @*<NavLink href="/join-game" Match="NavLinkMatch.All">Присоединиться</NavLink>
-        <NavLink href="/game-board" Match="NavLinkMatch.All">Игровое поле</NavLink>*@
-
+        @if (!string.IsNullOrEmpty(UserEmail))
+        {
+            <div>
+                <span>Logged in as: @UserEmail</span>
+                <button @onclick="Logout">Logout</button>
+            </div>
+        }
     </nav>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    public string? UserEmail { get; private set; }
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateUserEmailAsync();
+    }
+
+    public async Task UpdateUserEmailAsync()
+    {
+        var token = await LocalStorage.GetItemAsync<string>("token");
+        if (!string.IsNullOrEmpty(token))
+        {
+            UserEmail = GetEmailFromToken(token);
+        }
+        else
+        {
+            UserEmail = null;
+        }
+
+        StateHasChanged();
+    }
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("token");
+        UserEmail = null;
+        Navigation.NavigateTo("/login");
+    }
+
+    private string? GetEmailFromToken(string token)
+    {
+        var jwtHandler = new JwtSecurityTokenHandler();
+        var jwtToken = jwtHandler.ReadJwtToken(token);
+        var emailClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
+        return emailClaim?.Value;
     }
 }
