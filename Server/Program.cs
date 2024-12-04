@@ -3,6 +3,7 @@ using PerudoGame.Server.Hubs;
 using Server;
 using Server.Data;
 using Microsoft.EntityFrameworkCore;
+using Server.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -51,9 +54,9 @@ app.UseCors();
 
 using (var scope = app.Services.CreateScope())
 {
-	var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-	await dbContext.Database.MigrateAsync();
+    await dbContext.Database.MigrateAsync();
 }
 
 app.Run();
